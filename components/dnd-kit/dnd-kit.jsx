@@ -3,13 +3,12 @@
 import { DndContext, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core'
 import React, { useState } from 'react'
 import images from '../images/images'
-import { SortableContext, arrayMove, rectSortingStrategy, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { SortableContext, arrayMove, rectSortingStrategy } from '@dnd-kit/sortable'
 import SortableImage from './sortable-images'
 
 function ImageGrids() {
     const [imageList, setImageList] = useState(images);
     const [filter, setFilter] = useState("");
-    const [loadComplete, setLoadComplete] = useState(false);
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
     const onDragEnd = (event) => {
@@ -64,7 +63,7 @@ function ImageGrids() {
                 </div>
             ):(
                 <div className='pt-24'>
-                    <p className='text-center'>No Photo found for "<span className='font-medium'>{filter}</span>"</p>
+                    <p className='text-center'>No Photo found for &quot;<span className='font-medium'>{filter}</span>&quot;</p>
                 </div>
             )}
         </div>
