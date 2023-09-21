@@ -1,5 +1,6 @@
 import  { useSortable } from "@dnd-kit/sortable"
 import Image from "next/image";
+import {CSS} from '@dnd-kit/utilities';
 
 const SortableImage = ({ image }) => {
     const {

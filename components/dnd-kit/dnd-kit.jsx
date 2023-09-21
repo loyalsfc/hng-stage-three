@@ -1,18 +1,19 @@
 'use client'
 
-import { DndContext, closestCenter } from '@dnd-kit/core'
+import { DndContext, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core'
 import React, { useState } from 'react'
 import images from '../images/images'
-import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { SortableContext, arrayMove, rectSortingStrategy, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import SortableImage from './sortable-images'
 
 function ImageGrids() {
     const [imageList, setImageList] = useState(images);
     const [filter, setFilter] = useState("");
+    const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
     const onDragEnd = (event) => {
         const { active, over } = event;
-        if (active.id === over.id) {
+        if (active?.id === over?.id) {
           return;
         }
         setImageList((imageList) => {
@@ -47,10 +48,11 @@ function ImageGrids() {
                     </form>
                 </div>
             </div>
+
             {imageList.filter(imagesFilter).length ? (
                 <div className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4'>
-                    <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-                        <SortableContext items={images} strategy={verticalListSortingStrategy}>
+                    <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd} sensors={sensors}>
+                        <SortableContext items={images} strategy={rectSortingStrategy}>
                             {imageList.filter(imagesFilter).map((image) => (
                                 <SortableImage image={image} key={image.id} />
                             ))}
