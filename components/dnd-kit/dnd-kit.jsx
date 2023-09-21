@@ -17,8 +17,8 @@ function ImageGrids() {
           return;
         }
         setImageList((imageList) => {
-          const oldIndex = imageList.findIndex((image) => image.id === active.id);
-          const newIndex = imageList.findIndex((image) => image.id === over.id);
+          const oldIndex = imageList.findIndex((image) => image.id === active?.id);
+          const newIndex = imageList.findIndex((image) => image.id === over?.id);
           return arrayMove(imageList, oldIndex, newIndex);
         });
     };
