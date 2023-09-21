@@ -9,6 +9,7 @@ import SortableImage from './sortable-images'
 function ImageGrids() {
     const [imageList, setImageList] = useState(images);
     const [filter, setFilter] = useState("");
+    const [loadComplete, setLoadComplete] = useState(false);
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
     const onDragEnd = (event) => {
@@ -27,6 +28,10 @@ function ImageGrids() {
         return item.tag.toLocaleLowerCase().includes(filter.toLowerCase())
     }
 
+    const imagesGrid = imageList.filter(imagesFilter).map((image, index) => (
+        <SortableImage image={image} key={image.id} />
+    ))
+
     return (
         <div className=''>
             <div className='flex items-center  py-6'>
@@ -42,7 +47,7 @@ function ImageGrids() {
                 </div>
                 <div>
                     <form action="/auth/signout" method="post">
-                        <button className="" type="submit">
+                        <button className="font-medium text-sm hover:bg-gray-700 hover:text-white py-1.5 px-2 rounded-md" type="submit">
                             Sign out
                         </button>
                     </form>
@@ -53,9 +58,7 @@ function ImageGrids() {
                 <div className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4'>
                     <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd} sensors={sensors}>
                         <SortableContext items={images} strategy={rectSortingStrategy}>
-                            {imageList.filter(imagesFilter).map((image) => (
-                                <SortableImage image={image} key={image.id} />
-                            ))}
+                            {imagesGrid}
                         </SortableContext>
                     </DndContext>
                 </div>
